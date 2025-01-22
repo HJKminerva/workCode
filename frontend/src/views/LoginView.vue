@@ -39,9 +39,9 @@
 
     // 登录成功后跳转到主页
     //账号密码是admin，123456
-    if (username.value === 'admin' && password.value === '123') {
+    if (username.value === '123456' && password.value === '123456') {
       // 登录成功，跳转到主页
-      window.location.href = '/home';
+      window.location.href = '/';
     } else {
       // 登录失败，显示错误信息
       alert('用户名或密码错误');
@@ -57,7 +57,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
     background-color: #f0f2f5;
   }
   
