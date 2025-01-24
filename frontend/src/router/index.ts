@@ -10,9 +10,14 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'), // 懒加载
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/test.vue'), // 懒加载
+    },
+    {
+      path:'/about',
+      name:'about',
+      component: () => import('../views/AboutView.vue')
     },
     {
       path: '/login',
