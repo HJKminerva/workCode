@@ -11,8 +11,8 @@ def connect_to_database():
     try:
         # 连接到数据库
         db = mysql.connector.connect(
-            host='10.24.11.148',
-            user='hjk',
+            host='116.205.162.4',
+            user='root',
             password='123456',
             database='hjk'
         )
@@ -23,35 +23,35 @@ def connect_to_database():
 
 @app.route('/register', methods=['POST'])
 def register_user():
-    db = None
-    cursor = None
     try:
         # 获取前端发送的数据
         data = request.get_json()
-        print(data)
+        print(f"获取到前端数据: {data}")
         # 检查必要字段是否存在
-        if not data or 'user' not in data or 'password' not in data:
+        if not data or 'username' not in data or 'password' not in data:
             return jsonify({'error': '用户名和密码是必填项'}), 400
 
         # 提取数据
         user = data.get('username')
         password = data.get('password')
         email = data.get('email')
-        print(user, password, email)
+        print(f"用户名: {user}, 密码: {password}, 邮箱: {email}")
         # 在这里进行用户注册的逻辑处理，将用户信息保存到数据库中
         # 链接数据库
         db = connect_to_database()
         if db is None:
             return jsonify({'error': '无法连接到数据库'}), 500
+        else:
+            print("成功连接到数据库")
 
         cursor = db.cursor()
 
         # 插入数据
-        sql = "INSERT INTO user_information (account, password, email) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO user_account_information (username, password, email) VALUES (%s, %s, %s)"
         cursor.execute(sql, (user, password, email))
         db.commit()
         # 查询数据
-        sql = "SELECT * FROM user_information"
+        sql = "SELECT * FROM user_account_information"
         cursor.execute(sql)
         result = cursor.fetchall()
         print(result)
@@ -80,6 +80,8 @@ def register_user():
 
 @app.route('/login', methods=['POST'])
 def login_user():
+    db = None
+    cursor = None
     try:
         # 获取前端发送的数据
         data = request.get_json()
@@ -89,13 +91,14 @@ def login_user():
 
         # 链接数据库
         db = connect_to_database()
+        
         if db is None:
             return jsonify({'error': '无法连接到数据库'}), 500
 
         with db.cursor() as cursor:
             # 查询数据
-            sql = "SELECT * FROM user_information WHERE account = %s"
-            cursor.execute(sql, (user,))
+            sql = "SELECT * FROM user_account_information WHERE username = %s and password = %s"
+            cursor.execute(sql, (user,password))
             result = cursor.fetchone()
             print(f"从数据库中查询结果: {result}")
 
@@ -113,7 +116,7 @@ def login_user():
                 'message': '登录成功',
                 'data': {
                     'user': user,
-                    'email': result[2]  # 假设邮箱是查询结果的第三个字段
+                    'password': password  # 假设邮箱是查询结果的第三个字段
                 }
             }
             return jsonify(response_data), 200
@@ -121,6 +124,12 @@ def login_user():
     except Exception as e:
         print(f"服务器内部错误: {e}")  # 打印具体错误信息
         return jsonify({'error': '服务器内部错误'}), 500
+    finally:
+        # 关闭游标和数据库连接
+        if cursor:
+            cursor.close()
+        if db and db.is_connected():
+            db.close()
 
 if __name__ == '__main__':
     app.run(debug=True)  # 生产环境中应设置为 False

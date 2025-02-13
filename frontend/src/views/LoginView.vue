@@ -34,47 +34,51 @@
 
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const router = useRouter();
+    const router = useRouter();//有了这个才能跳转页面
     const username = ref('');
     const password = ref('');
-    console.log(username.value,password.value);
-    const handleSubmit = async () => {
-      console.log("LoginView.vue 被加载了4");
+    const message = ref('');
+
+    const handleLogin = async () => {
       try {
-        const response = await axios.post("http://127.0.0.1:5000/login", {
+        const response = await axios.post('http://localhost:5000/login', {
           username: username.value,
           password: password.value,
         });
-
-        if (response.status === 200) {
-          alert("登录成功！");
-          router.push({ name: '/' });
+        console.log('Login request sent');
+        console.log(response.data);
+        console.log(response.data.success);
+        if (response.data.message === '登录成功' ) {
+          console.log('Login successful');
+          message.value = '登录成功';
+          console.log('Attempting to redirect to home page');
+          // router.push({ name: 'home' });
+          router.push('/');
         } else {
-          alert(response.data.message || "登录失败，请重试！");
+          message.value = response.data.message;
+          console.log(response.data.message);
         }
       } catch (error) {
-        if (error.response) {
-          alert(error.response.data.error || "用户名或密码错误");
-        } else {
-          console.error("请求未到达后端:", error);
-          alert("网络错误，请检查后端服务");
-        }
+        message.value = '请求失败，请检查网络';
+        console.error(error);
       }
     };
 
     return {
       username,
       password,
-      handleSubmit,
+      message,
+      handleLogin,
     };
   },
 };
 </script>
+
 
 
 <style scoped>

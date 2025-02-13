@@ -69,7 +69,9 @@
   <script setup>
   import { ref, computed } from 'vue';
   import axios from 'axios';
+  import { useRouter } from 'vue-router';
   
+  const router = useRouter();
   // 获取用户信息
   const formData = ref({
     username: '',
@@ -161,13 +163,15 @@
 
     if (response.status === 201) {
       console.log('注册成功:', response.data);
+      router.push('/login'); // 注册成功后跳转到登录页面
       // 成功后重置表单
-      // formData.value = {
-      //   username: '',
-      //   email: '',
-      //   password: '',
-      //   confirmPassword: ''
-      // };
+      formData.value = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      };
+      
     }
   } catch (error) {
     const errorMsg = error.response?.data?.message || error.message;
