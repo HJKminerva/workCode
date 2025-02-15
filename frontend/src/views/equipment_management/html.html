@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .number-btn {
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .active {
+      background-color: #007bff;
+      color: white;
+    }
+    .data-row {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <!-- 数字按钮 -->
+  <div id="numberContainer">
+    <button class="number-btn" onclick="handleClick(1)">1</button>
+    <button class="number-btn" onclick="handleClick(2)">2</button>
+    <button class="number-btn" onclick="handleClick(3)">3</button>
+  </div>
+
+  <!-- 数据容器 -->
+  <div id="dataContainer"></div>
+
+  <script>
+    function handleClick(num) {
+      // 1. 更新按钮选中状态
+      const buttons = document.querySelectorAll('.number-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // 2. 清空旧数据
+      const dataContainer = document.getElementById('dataContainer');
+      dataContainer.innerHTML = '';
+
+      // 3. 生成新数据行
+      for (let i = 0; i < num; i++) {
+        const row = document.createElement('div');
+        row.className = 'data-row';
+        row.textContent = `这是第 ${i + 1} 行数据，生成时间：${new Date().toLocaleTimeString()}`;
+        dataContainer.appendChild(row);
+      }
+    }
+  </script>
+</body>
+</html>

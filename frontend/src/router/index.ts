@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/test.vue'), // 懒加载
     },
     {
+      path: '/test02',
+      name: 'test02',
+      component: () => import('../views/test02.vue'), // 懒加载
+    },
+    {
       path:'/about',
       name:'about',
       component: () => import('../views/AboutView.vue')
