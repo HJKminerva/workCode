@@ -17,7 +17,17 @@ export default {
 
 <template>
     <div class="mainframe">
-        <header class="mainframe_header"></header>
+        <header class="mainframe_header">
+            <div class="left">
+                <div class="appList_icon" @click="handleAppItemClick('应用列表')">
+                    <img src="../components/icons/logo2.svg" alt="应用列表图标">
+                </div>
+                <div class="logo">
+                    <img src="../assets/images/logo-yunlian.png" alt="图片">
+                    <div class="logo_text">兴发工业</div>
+                </div>
+            </div>
+        </header>
         <section class="container">
             <div class="mainframe_left">
                 <div class="sidebar">
@@ -38,6 +48,55 @@ export default {
 </template>
 
 <style scoped>
+.mainframe_header .left {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+
+.logo .logo_text {
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #545c64;
+    font-family: Microsoft JhengHei UI Bold, Microsoft JhengHei UI, sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    --webkit-line-clamp: 1;
+    --webkit-box-orient: vertical;
+}
+
+.logo {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-right: 1px solid #4329d4;
+}
+
+.image {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+
+.appList_icon {
+    display: flex;
+    width: 60px;
+    height: 100%;
+    background-color: #ff6a00;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 .page .right {
     flex: 1;
     background-color: rgb(2, 9, 116);
@@ -109,7 +168,7 @@ export default {
 .mainframe .mainframe_header {
     height: 60px;
     width: 100%;
-    background-color: yellow;
+    background-color: rgb(238, 229, 149);
     flex-shrink: 0;
 }
 
