@@ -1,9 +1,10 @@
 <script>
+import applist from '@/components/Applist.vue'
 export default {
-    name: 'appList',
+    components: { applist },
     data() {
         return {
-            isVisible: true // 初始状态为显示
+            isVisible: false // 初始状态为显示
         };
     },
     methods: {
@@ -20,7 +21,7 @@ export default {
         <header class="mainframe_header">
             <div class="left">
                 <div class="appList_icon" @click="handleAppItemClick('应用列表')">
-                    <img src="../components/icons/logo2.svg" alt="应用列表图标">
+                    <img src="../components/icons/applist.svg" alt="应用列表图标">
                 </div>
                 <div class="logo">
                     <img src="../assets/images/logo-yunlian.png" alt="图片">
@@ -28,6 +29,7 @@ export default {
                 </div>
             </div>
         </header>
+
         <section class="container">
             <div class="mainframe_left">
                 <div class="sidebar">
@@ -44,10 +46,19 @@ export default {
                 </div>
             </div>
         </section>
+        
+        <div class="applist_container" v-if="isVisible" @click="handleAppItemClick('应用列表')">
+            <applist></applist>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.applist_container {
+    width: 650px;
+    height: 100vh;
+    background-color: #beb3fa;
+}
 .mainframe_header .left {
     display: flex;
     align-items: center;

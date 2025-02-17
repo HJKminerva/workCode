@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('../views/test02.vue'), // 懒加载
     },
     {
+      path: '/aitest',
+      name: 'aitest',
+      component: () => import('../views/aitest.vue'), // 懒加载
+    },
+    {
       path:'/about',
       name:'about',
       component: () => import('../views/AboutView.vue')

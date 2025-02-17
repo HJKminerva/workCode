@@ -1,22 +1,555 @@
 <template>
     <div class="mainframe">
-        <header class="mainframe_header"></header>
+      <section class="hj-container is-vertical">
+        <header class="hj-header mainframe_header">
+          <div class="pc_header_off" style="height: 60px !important; opacity: 1;">
+            <div class="header_top">
+              <div class="header_top_left">
+                <div class="appList_icon" @click="handleAppItemClick('应用列表')">
+                  <img src="../components/icons/applist.svg" alt="应用列表图标">
+                </div>
+                
+                <div class="page" v-show="isVisible">
+                  <div class="top">
+                    <!-- 搜索框保持不变 -->
+                  </div>
+                  <div class="bottom">
+                    <div class="left">
+                      <div class="list">
+                        <div class="virtual_list">
+                          <div class="virtual_back" style="height: 360px;"></div>
+                          <div class="virtual_body" style="top: 0px;">
+                            <!-- 动态渲染分组 -->
+                            <template v-for="(group, index) in groups" :key="group.name">
+                              <div class="myItem myItem_groupName">{{ group.name }}</div>
+                              <div class="myItem myItem_appList">
+                                <div 
+                                  class="appItem" 
+                                  v-for="app in group.apps" 
+                                  :key="app.name"
+                                >
+                                  <div class="icon">
+                                    <div style="user-select: none;">
+                                      <div 
+                                        class="svg-icon_content" 
+                                        :text="`${app.name};null`"
+                                        style="display: flex; justify-content: center; align-items: center; cursor: pointer; height: 24px; width: 24px; line-height: 24px; font-size: 19.2px;"
+                                      >
+                                        {{ app.iconText }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="text">
+                                    <div class="vxp-ellipsis">{{ app.name }}</div>
+                                  </div>
+                                  <div class="collect" @click="toggleCollect(app)">
+                                    <!-- <i class="hj-icon" :style="{ color: app.collected ? '#FF6A00' : '' }">
+                                      <svg v-if="app.collected" ...实心星星SVG...></svg>
+                                      <svg v-else ...空心星星SVG...></svg>
+                                    </i> -->
+                                  </div>
+                                </div>
+                              </div>
+                              <div 
+                                class="myItem myItem_border" 
+                                v-if="index !== groups.length - 1"
+                              >
+                                <div class="border"></div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="logo">
+                  <img src="../assets/images/logo-yunlian.png" alt="图片">
+                  <div class="logo_text">兴发工业</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      </section>
     </div>
-</template>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        isVisible: true,
+        groups: [
+          {
+            name: '默认分组',
+            apps: [
+              { 
+                name: '平台管控',
+                iconText: '管',
+                collected: true
+              }
+            ]
+          },
+          {
+            name: '运营支撑',
+            apps: [
+              { name: '工匠云', iconText: '工', collected: true },
+              { name: '智慧能源', iconText: '智', collected: true },
+              { name: '智慧园区', iconText: '园', collected: true },
+              { name: '躬铝智数', iconText: '躬', collected: true },
+              { name: '设备管理', iconText: '设', collected: true }
+            ]
+          },
+          {
+            name: '精益制造',
+            apps: [
+              { name: '平台管控', iconText: '管', collected: true }
+            ]
+          }
+        ]
+      }
+    },
+    methods: {
+      handleAppItemClick(name) {
+        console.log('Clicked:', name)
+      },
+      toggleCollect(app) {
+        app.collected = !app.collected
+      }
+    }
+  }
+  </script>
 
 <style scoped>
+.hj-input__inner {
+    --hj-input-inner-height: calc(var(--hj-input-height, 32px) - 2px);
+    --webkit-appearance: none;
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    color: var(--hj-input-text-color, var(--hj-text-color-regular));
+    flex-grow: 1;
+    font-size: inherit;
+    height: var(--hj-input-inner-height);
+    line-height: var(--hj-input-inner-height);
+    outline: none;
+    padding: 0;
+    width: 100%;
+}
+
+.hj-input--large .hj-input__inner {
+    --hj-input-inner-height: calc(var(--hj-input-height, 40px) - 2px);
+}
+.hj-input__prefix-inner {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: all;
+}
+.page .top .searchInput {
+    width: 650px;
+}
+.hj-input--large {
+    --hj-input-height: var(--hj-component-size-large);
+    font-size: 14px;
+}
+.hj-input {
+    --hj-input-text-color: var(--hj-text-color-regular);
+    --hj-input-border: var(--hj-border);
+    --hj-input-hover-border: var(--hj-border-color-hover);
+    --hj-input-focus-border: var(--hj-color-primary);
+    --hj-input-transparent-border: 0 0 0 1px transparent inset;
+    --hj-input-border-color: var(--hj-border-color);
+    --hj-input-border-radius: var(--hj-border-radius-base);
+    --hj-input-bg-color: var(--hj-fill-color-blank);
+    --hj-input-icon-color: var(--hj-text-color-placeholder);
+    --hj-input-placeholder-color: var(--hj-text-color-placeholder);
+    --hj-input-hover-border-color: var(--hj-border-color-hover);
+    --hj-input-clear-hover-color: var(--hj-text-color-secondary);
+    --hj-input-focus-border-color: var(--hj-color-primary);
+    --hj-input-width: 100%;
+    --hj-input-height: var(--hj-component-size);
+    box-sizing: border-box;
+    display: inline-flex;
+    font-size: var(--hj-font-size-base);
+    line-height: var(--hj-input-height);
+    position: relative;
+    vertical-align: middle;
+    width: var(--hj-input-width);
+}
+.page .bottom .left .list .myItem_appList .appItem .text{
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 6px;
+    font-family: Source Han Sans SC Normal Bold, Source Han Sans SC Normal, sans-serif;
+    font-weight: 700;
+    color: #070707;
+    display: flex;
+}
+.page .bottom .left .list .myItem_appList .appItem{
+    width: 200px;
+    height: 100%;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.page .bottom .left .list .myItem_appList .appItem .icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page .bottom .left .list .myItem_border .border {
+    width: 100%;
+    height: 1px;
+    background-color: #5082f7;
+}
+.page .bottom .left .list .myItem_appList{
+    display: flex;
+    align-items: center;
+}
+.page .bottom .left .list .myItem{
+    font-family: var(--font-siyuan);
+    font-weight: 350;
+    color: #ff6a00;
+    padding-left: 12px;
+    min-height: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.page .bottom .left .list .myItem_groupName{
+    color: #7c8791;
+}
+
+.page .bottom .left {
+    width: 660px;
+    min-width: 66px;
+    height: 100%;
+    border-right: 1px solid black;
+}
+.page .bottom .left .list {
+    height: inherit;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.page .bottom .right {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    border-left: 1px solid black;
+    flex-direction: column;
+}
+
+.page .left .bottom .leftList .leftList_item .leftList_item_inner.active_left_item {
+    background-color: #f3f5f9;
+}
+
+.page .left .bottom .leftList .leftList_item .leftList_item_inner .icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 25px;
+}
+
+.page .left .bottom .leftList .leftList_item .leftList_item_inner .rightIcon img {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 10px;
+}
+
+.page .left .bottom .leftList .leftList_item .leftList_item_inner .text {
+    width: 100px;
+    margin-left: 18px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.page .left .bottom .leftList .leftList_item .leftList_item_inner {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 40px;
+    cursor: pointer;
+}
+
+.page .left .bottom .leftList .leftList_item {
+    height: 45px;
+    width: 100%;
+    padding-bottom: 5px;
+    color: #7c8791;
+}
+.virtual_list {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: auto;
+}
+.virtual_list .virtual_body {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+
+
+.page .left .bottom .leftList {
+    height: 100%;
+    width: 200px;
+    overflow: auto;
+    border-right: 1px solid #ebeef5;
+}
+
+.page .left .bottom {
+    flex: 1;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+}
+
+.hj-input__wrapper {
+    align-items: center;
+    background-color: var(--hj-input-bg-color, var(--hj-fill-color-blank));
+    background-image: none;
+    border-radius: var(--hj-input-border-radius, var(--hj-border-radius-base));
+    box-shadow: 0 0 0 1px var(--hj-input-border-color, var(--hj-border-color)) inset;
+    cursor: text;
+    display: inline-flex;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 1px 11px;
+    transform: translateZ(0);
+    transition: var(--hj-transition-box-shadow);
+}
+.np-input--large .hj-input__wrapper {
+    padding:1px 15px;
+}
+
+.hj-input__prefix {
+    color: var(--hj-input-icon-color, var(--hj-text-color-placeholder));
+    display: inline-flex;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    height: 100%;
+    pointer-events: none;
+    text-align: center;
+    transition: all var(--hj-transition-duration);
+    white-space: nowrap;
+}
+hj-input__prefix-inner {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: all;
+}
+
+.page {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 920px;
+    height: calc(100% - 60px);
+    background-color: #f5e6f2;
+    z-index: 2009;
+    transition: all 0.3s;
+    border-top: 1px solid #0a0a0a;
+    display: flex;
+    flex-direction: column;
+}
+
+.page .top {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    height: 52px;
+}
+.page .buttom {
+    display: flex;
+    height: calc(100% - 52px);
+    border-right: 1px solid #0a0a0a;
+}
+
+
+.page .left {
+    width: 730px;
+    min-width: 720px;
+    height: 100%;
+    border-right: 1px solid #ebeef5;
+    display: flex;
+    flex-direction: column;
+}
+
+.page .left .top {
+    padding-left: 9px;
+    padding-right: 22px;
+    padding-bottom: 9px;
+}
+
+.hj-input_inner {
+    --hj-input-inner-height: calc(var(--hj-input-height, 32px) - 2px);
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    color: var(--hj-input-text-color, var(--hj-text-color-regular));
+    flex-grow: 1;
+    font-size: inherit;
+    height: var(--hj-input-inner-height);
+    line-height: var(--hj-input-inner-height);
+    outline: none;
+    padding: 0;
+    width: 100%;
+}
+
+.hj-input-large {
+    --hj-input-height: var(--hj-component-size-large);
+    font-size: 14px;
+}
+
+.hj-input-large .hj-input__wrapper {
+    padding: 1px 15px;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+
+.logo_text {
+    margin-left: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #545c64;
+    font-family: Microsoft JhengHei UI Bold, Microsoft JhengHei UI, sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    --webkit-line-clamp: 1;
+    --webkit-box-orient: vertical;
+}
+
+.logo {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-right: 1px solid #e6e6e6;
+}
+
+.appList_icon {
+    width: 60px;
+    background-color: #ff6a00;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .mainframe {
     box-sizing: border-box;
     width: 100vw;
-    height: 100vh; /* 确保高度设置正确 */
+    height: 100vh;
+    max-width: 100vw;
     display: flex;
     overflow: hidden;
 }
 
-.mainframe .mainframe_header {
+.hj-container {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    flex-basis: auto;
+    min-width: 0;
+}
+
+.hj-container.is-vertical {
+    flex-direction: column;
+}
+
+.hj-header {
+    --hj-header-padding: 0 20px;
+    --hj-header-height: 60px;
+    flex-shrink: 0;
+}
+
+.mainframe_header {
+    padding: 0 !important;
+    height: auto;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    overflow: hidden;
+}
+
+.header_top {
     height: 60px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.header_top .header_top_left {
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.mainframe_container {
+    overflow: auto;
+}
+
+.mainframe_left {
+    box-sizing: border-box;
+    border: 1px solid rgb(218, 218, 218);
+    position: relative;
+    width: 200px;
+    display: flex;
+}
+
+.sidebar {
     width: 100%;
-    background-color: yellow;
-    border: 1px solid red;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .top {
+    flex: 1;
+    overflow: auto;
+}
+
+.sidebar_applist {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+.sidebar_appItem {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar_appItem:hover {
+    background-color: #f0f0f0;
 }
 </style>

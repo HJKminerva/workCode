@@ -24,7 +24,7 @@ export default {
                     <div class="header_top">
                         <div class="header_top_left">
                             <div class="appList_icon" @click="handleAppItemClick('应用列表')">
-                                <img src="../components/icons/logo2.svg" alt="应用列表图标">
+                                <img src="../components/icons/applist.svg" alt="应用列表图标">
                             </div>
                             <!--搜索栏下面的内容-->
                             <div class="page" v-show="isVisible">
